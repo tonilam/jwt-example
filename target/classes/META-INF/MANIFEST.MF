@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: jwt-example
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Toni
+Implementation-Vendor-Id: com.wordpress.tonilam
+Build-Jdk: 1.8.0_172
+Implementation-URL: http://projects.spring.io/spring-boot/jwt-example/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
