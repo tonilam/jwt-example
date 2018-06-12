@@ -1,6 +1,8 @@
 package app.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -32,7 +34,10 @@ public class JwtRest {
 		
 		try {
 			Algorithm algorithm = Algorithm.HMAC256("secret");
+			String[] scopes = {"read:messages", "write:messages"};
+			
 			token = JWT.create()
+					.withClaim("scope", String.join(" ", scopes))
 					.withIssuer("auth0")
 					.sign(algorithm);
 		} catch (IllegalArgumentException e) {
@@ -54,10 +59,6 @@ public class JwtRest {
 	public Response decodeToken(@QueryParam("token") String token) {
 		JwtToken tokenDetail = new JwtToken();
 		try {
-			Algorithm algorithm = Algorithm.HMAC256("secret");
-			JWTVerifier verifier = JWT.require(algorithm)
-					.withIssuer("auth0")
-					.build();
 			DecodedJWT jwt = JWT.decode(token);
 			tokenDetail.withAlgorithm(jwt.getAlgorithm())
 				.withType(jwt.getType())
@@ -65,10 +66,6 @@ public class JwtRest {
 				.withKeyId(jwt.getKeyId())
 				.withSubject(jwt.getSubject());
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.noContent().status(Response.Status.BAD_REQUEST).build();
-		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return Response.noContent().status(Response.Status.BAD_REQUEST).build();
@@ -94,22 +91,15 @@ public class JwtRest {
 		}
 		
 		try {
-			Algorithm algorithm = Algorithm.HMAC256("secret");
 			String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length());
-			JWTVerifier verifier = JWT.require(algorithm)
-					.withIssuer("auth0")
-					.build();
 			DecodedJWT jwt = JWT.decode(token);
-			tokenDetail.withAlgorithm(jwt.getAlgorithm())
+			tokenDetail = tokenDetail.withAlgorithm(jwt.getAlgorithm())
 				.withType(jwt.getType())
 				.withContentType(jwt.getContentType())
 				.withKeyId(jwt.getKeyId())
-				.withSubject(jwt.getSubject());
+				.withSubject(jwt.getSubject())
+				.withScope(TokenHelper.getScopeArray(jwt.getClaim("scope").asString()));
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.noContent().status(Response.Status.BAD_REQUEST).build();
-		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return Response.noContent().status(Response.Status.BAD_REQUEST).build();

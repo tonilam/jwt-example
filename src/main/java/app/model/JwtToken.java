@@ -6,7 +6,8 @@ public class JwtToken {
 	private String contentType;
 	private String keyId;
 	private String subject;
-	
+	private String[] scopes;
+
 	public JwtToken withAlgorithm(String algorithm) {
 		this.algorithm = algorithm;
 		return this;
@@ -29,6 +30,11 @@ public class JwtToken {
 	
 	public JwtToken withSubject(String subject) {
 		this.subject = subject;
+		return this;
+	}
+	
+	public JwtToken withScope(String[] scopes) {
+		this.scopes = scopes;
 		return this;
 	}
 	
@@ -63,6 +69,12 @@ public class JwtToken {
 		this.subject = subject;
 	}
 	
-	
+	public String[] getScopes() {
+		return scopes;
+	}
+
+	public void setScopes(String[] scopes) {
+		this.scopes = scopes;
+	}
 	
 }
