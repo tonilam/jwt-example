@@ -19,20 +19,21 @@
 	  </dependency>
 	  <dependency>
 	  	<groupId>org.springframework.retry</groupId>
-	  	<artifactId>spring-retry</artifactId>
+    	<artifactId>spring-retry</artifactId>
 	  </dependency>
 	  <dependency>
-	    <groupId>com.auth0</groupId>
-	    <artifactId>java-jwt</artifactId>
-	    <version>3.3.0</version>
+	    <!-- This is required for JWT Algorithm -->
+	  	<groupId>commons-codec</groupId>
+	  	<artifactId>commons-codec</artifactId>
+	  </dependency>
+	  <dependency>
+	  	<groupId>com.auth0</groupId>
+	  	<artifactId>java-jwt</artifactId>
+	  	<version>3.3.0</version>
 	  </dependency>
   </dependencies>
   <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
 </project>
